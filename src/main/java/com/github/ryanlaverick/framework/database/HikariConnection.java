@@ -74,6 +74,10 @@ public final class HikariConnection implements Connection {
 
     @Override
     public java.sql.Connection getConnection() throws SQLException {
+        if (this.hikariDataSource == null) {
+            return null;
+        }
+
         return this.hikariDataSource.getConnection();
     }
 }
