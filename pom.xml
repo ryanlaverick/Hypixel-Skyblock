@@ -40,7 +40,7 @@
                     <archive>
                         <manifest>
                             <mainClass>
-                                com.github.ryanlaverick.nopixel.NoPixel
+                                com.github.ryanlaverick.Skyblock
                             </mainClass>
                         </manifest>
                     </archive>
