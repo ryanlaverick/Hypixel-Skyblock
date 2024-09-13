@@ -7,40 +7,47 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class Statement {
-    public ResultSet query(String sql, List<Argument> arguments) throws ExecutionException, InterruptedException {
-        CompletableFuture<ResultSet> result = CompletableFuture.supplyAsync(() -> {
-            Connection connection = null;
-            PreparedStatement preparedStatement = null;
-            ResultSet resultSet = null;
+    public boolean execute(String sql, List<Argument> arguments) throws ExecutionException, InterruptedException {
+        CompletableFuture<Boolean> result = CompletableFuture.supplyAsync(() -> {
+            try (
+                    Connection connection = DatabaseManager.getConnection().getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement(sql)
+            ) {
+                for (Argument argument : arguments) {
+                    this.translateArgumentType(arguments, preparedStatement, argument);
+                }
 
-            try {
-               connection = DatabaseManager.getConnection().getConnection();
-               preparedStatement = connection.prepareStatement(sql);
-
-               for (Argument argument : arguments) {
-                   this.translateArgumentType(arguments, preparedStatement, argument);
-               }
-
-               resultSet = preparedStatement.executeQuery();
-
+                return preparedStatement.execute();
             }
 
             catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            finally {
-                try {
-                    connection.close();
-                    preparedStatement.close();
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            return null;
+        });
 
+        return result.get();
+    }
+
+    public ResultSet query(String sql, List<Argument> arguments) throws ExecutionException, InterruptedException {
+        CompletableFuture<ResultSet> result = CompletableFuture.supplyAsync(() -> {
+            try (
+                    Connection connection = DatabaseManager.getConnection().getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement(sql)
+            ) {
+               for (Argument argument : arguments) {
+                   this.translateArgumentType(arguments, preparedStatement, argument);
+               }
+
+               ResultSet resultSet = preparedStatement.executeQuery();
+
+               if (resultSet.next()) return resultSet;
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
-            return resultSet;
+            return null;
         });
 
         return result.get();
