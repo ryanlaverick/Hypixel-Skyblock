@@ -1,0 +1,5 @@
+name: Skyblock
+author: Ryan Laverick (Novur)
+version: 0.0.1-ALPHA
+api-version: 1.19
+main: com.github.ryanlaverick.Skyblock
