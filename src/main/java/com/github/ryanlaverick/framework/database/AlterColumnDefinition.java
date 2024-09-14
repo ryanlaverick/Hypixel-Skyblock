@@ -87,9 +87,9 @@ public class AlterColumnDefinition implements ColumnDefinition {
         String baseString = "";
 
         if (this.isAltering()) {
-            baseString = "ALTER COLUMN :column :type";
+            baseString = "ALTER COLUMN `:column` :type";
         } else {
-            baseString = "ADD COLUMN :column :type";
+            baseString = "ADD COLUMN `:column` :type";
         }
 
         if (this.hasSize()) {

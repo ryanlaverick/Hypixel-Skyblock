@@ -14,6 +14,6 @@ public final class DropColumnDefinition implements ColumnDefinition {
 
     @Override
     public String asSql() {
-        return "DROP COLUMN :column".replace(":column", this.column);
+        return "DROP COLUMN `:column`".replace(":column", this.column);
     }
 }

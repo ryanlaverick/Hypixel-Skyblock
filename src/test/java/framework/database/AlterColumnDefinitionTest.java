@@ -19,9 +19,9 @@ class AlterColumnDefinitionTest {
         assertEquals("column", columnDefinition.getColumn());
 
         if (type == ColumnType.VARCHAR) {
-            assertEquals("ADD COLUMN column :type(255) NOT NULL".replace(":type", type.getSql()), columnDefinition.asSql());
+            assertEquals("ADD COLUMN `column` :type(255) NOT NULL".replace(":type", type.getSql()), columnDefinition.asSql());
         } else {
-            assertEquals("ADD COLUMN column :type NOT NULL".replace(":type", type.getSql()), columnDefinition.asSql());
+            assertEquals("ADD COLUMN `column` :type NOT NULL".replace(":type", type.getSql()), columnDefinition.asSql());
         }
     }
 
@@ -32,7 +32,7 @@ class AlterColumnDefinitionTest {
 
         assertTrue(columnDefinition.isAltering());
 
-        assertEquals("ALTER COLUMN column VARCHAR(255) NOT NULL", columnDefinition.asSql());
+        assertEquals("ALTER COLUMN `column` VARCHAR(255) NOT NULL", columnDefinition.asSql());
     }
 
     @Test
@@ -42,7 +42,7 @@ class AlterColumnDefinitionTest {
 
         assertEquals(10, columnDefinition.getSize());
         assertTrue(columnDefinition.hasSize());
-        assertEquals("ADD COLUMN column VARCHAR(10) NOT NULL", columnDefinition.asSql());
+        assertEquals("ADD COLUMN `column` VARCHAR(10) NOT NULL", columnDefinition.asSql());
     }
 
     @Test
@@ -51,7 +51,7 @@ class AlterColumnDefinitionTest {
                 .primaryKey();
 
         assertTrue(columnDefinition.isPrimary());
-        assertEquals("ADD COLUMN column VARCHAR(255) NOT NULL PRIMARY KEY", columnDefinition.asSql());
+        assertEquals("ADD COLUMN `column` VARCHAR(255) NOT NULL PRIMARY KEY", columnDefinition.asSql());
     }
 
     @Test
@@ -60,6 +60,6 @@ class AlterColumnDefinitionTest {
                 .nullable();
 
         assertTrue(columnDefinition.isNullable());
-        assertEquals("ADD COLUMN column VARCHAR(255)", columnDefinition.asSql());
+        assertEquals("ADD COLUMN `column` VARCHAR(255)", columnDefinition.asSql());
     }
 }

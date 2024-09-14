@@ -79,7 +79,7 @@ public final class Schema {
     }
 
     private String getCreateSql() {
-        String tableString = "CREATE TABLE IF NOT EXISTS ':table'"
+        String tableString = "CREATE TABLE IF NOT EXISTS `:table`"
                 .replace(":table", this.getTable());
 
         if (!this.getColumnDefinitions().isEmpty()) {
@@ -88,7 +88,7 @@ public final class Schema {
 
             for (ColumnDefinition columnDefinition : this.getColumnDefinitions()) {
                 // Don't add trailing comma to last column
-                if (this.getColumnDefinitions().indexOf(columnDefinition) == this.getColumnDefinitions().size()) {
+                if (this.getColumnDefinitions().indexOf(columnDefinition) == this.getColumnDefinitions().size() - 1) {
                     columnString = columnString.concat(columnDefinition.asSql());
                 } else {
                     columnString = columnString.concat(columnDefinition.asSql().concat(", "));
@@ -102,15 +102,15 @@ public final class Schema {
     }
 
     private String getAlterSql() {
-        String tableString = "ALTER TABLE :table"
+        String tableString = "ALTER TABLE `:table`"
                 .replace(":table", this.getTable());
 
         if (!this.getColumnDefinitions().isEmpty()) {
-            String columnString = "";
+            String columnString = " ";
 
             for (ColumnDefinition columnDefinition : this.getColumnDefinitions()) {
                 // Don't add trailing comma to last column
-                if (this.getColumnDefinitions().indexOf(columnDefinition) == this.getColumnDefinitions().size()) {
+                if (this.getColumnDefinitions().indexOf(columnDefinition) == this.getColumnDefinitions().size() - 1) {
                     columnString = columnString.concat(columnDefinition.asSql());
                 } else {
                     columnString = columnString.concat(columnDefinition.asSql().concat(", "));
@@ -124,6 +124,6 @@ public final class Schema {
     }
 
     private String getDropSql() {
-        return "DROP TABLE IF EXISTS :table".replace(":table", this.getTable());
+        return "DROP TABLE IF EXISTS `:table`".replace(":table", this.getTable());
     }
 }

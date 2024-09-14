@@ -9,9 +9,9 @@ class RawColumnDefinitionTest {
 
     @Test
     void rawDefinition() {
-        RawColumnDefinition columnDefinition = new RawColumnDefinition("FOREIGN KEY (uuid) REFERENCES players(player_uuid)");
+        RawColumnDefinition columnDefinition = new RawColumnDefinition("FOREIGN KEY (`uuid`) REFERENCES players(player_uuid)");
 
         assertEquals("", columnDefinition.getColumn());
-        assertEquals("FOREIGN KEY (uuid) REFERENCES players(player_uuid)", columnDefinition.asSql());
+        assertEquals("FOREIGN KEY (`uuid`) REFERENCES players(player_uuid)", columnDefinition.asSql());
     }
 }

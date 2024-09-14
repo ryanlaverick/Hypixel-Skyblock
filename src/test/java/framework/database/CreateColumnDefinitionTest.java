@@ -19,9 +19,9 @@ class CreateColumnDefinitionTest {
         assertEquals("column", columnDefinition.getColumn());
 
         if (type == ColumnType.VARCHAR) {
-            assertEquals("column :type(255) NOT NULL".replace(":type", type.getSql()), columnDefinition.asSql());
+            assertEquals("`column` :type(255) NOT NULL".replace(":type", type.getSql()), columnDefinition.asSql());
         } else {
-            assertEquals("column :type NOT NULL".replace(":type", type.getSql()), columnDefinition.asSql());
+            assertEquals("`column` :type NOT NULL".replace(":type", type.getSql()), columnDefinition.asSql());
         }
     }
 
@@ -32,7 +32,7 @@ class CreateColumnDefinitionTest {
 
         assertEquals(10, columnDefinition.getSize());
         assertTrue(columnDefinition.hasSize());
-        assertEquals("column VARCHAR(10) NOT NULL", columnDefinition.asSql());
+        assertEquals("`column` VARCHAR(10) NOT NULL", columnDefinition.asSql());
     }
 
     @Test
@@ -41,7 +41,7 @@ class CreateColumnDefinitionTest {
                 .primaryKey();
 
         assertTrue(columnDefinition.isPrimary());
-        assertEquals("column VARCHAR(255) NOT NULL PRIMARY KEY", columnDefinition.asSql());
+        assertEquals("`column` VARCHAR(255) NOT NULL PRIMARY KEY", columnDefinition.asSql());
     }
 
     @Test
@@ -50,6 +50,6 @@ class CreateColumnDefinitionTest {
                 .nullable();
 
         assertTrue(columnDefinition.isNullable());
-        assertEquals("column VARCHAR(255)", columnDefinition.asSql());
+        assertEquals("`column` VARCHAR(255)", columnDefinition.asSql());
     }
 }

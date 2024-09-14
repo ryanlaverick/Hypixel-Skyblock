@@ -59,7 +59,7 @@ public final class CreateColumnDefinition implements ColumnDefinition {
     }
 
     public String asSql() {
-        String baseString = ":column :type";
+        String baseString = "`:column` :type";
 
         if (this.hasSize()) {
             baseString = baseString.concat("(:size)");

@@ -11,6 +11,6 @@ class DropColumnDefinitionTest {
         DropColumnDefinition columnDefinition = new DropColumnDefinition("uuid");
 
         assertEquals("uuid", columnDefinition.getColumn());
-        assertEquals("DROP COLUMN uuid", columnDefinition.asSql());
+        assertEquals("DROP COLUMN `uuid`", columnDefinition.asSql());
     }
 }
