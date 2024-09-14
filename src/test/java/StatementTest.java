@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class StatementTest {
+class StatementTest {
     private final Statement statement = new Statement();
 
     @ParameterizedTest
