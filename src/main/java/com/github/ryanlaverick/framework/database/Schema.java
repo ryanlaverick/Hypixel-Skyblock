@@ -3,8 +3,8 @@ package com.github.ryanlaverick.framework.database;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Schema {
-    private String table;
+public final class Schema {
+    private final String table;
     private final List<ColumnDefinition> columnDefinitions;
 
     private boolean isCreating = true;
@@ -106,8 +106,6 @@ public class Schema {
                 .replace(":table", this.getTable());
 
         if (!this.getColumnDefinitions().isEmpty()) {
-            tableString = table.concat(" :columns");
-
             String columnString = "";
 
             for (ColumnDefinition columnDefinition : this.getColumnDefinitions()) {
@@ -119,7 +117,7 @@ public class Schema {
                 }
             }
 
-            tableString = tableString.replace(":columns", columnString);
+            tableString = tableString.concat(columnString);
         }
 
         return tableString;

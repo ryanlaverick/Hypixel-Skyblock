@@ -1,4 +1,5 @@
-import com.github.ryanlaverick.framework.database.ColumnDefinition;
+package framework.database;
+
 import com.github.ryanlaverick.framework.database.ColumnType;
 import com.github.ryanlaverick.framework.database.Schema;
 import org.junit.jupiter.api.Test;
@@ -19,10 +20,6 @@ class SchemaTest {
     }
 
     void alterSchema() {
-        Schema schema = new Schema("players")
-                .alter()
-                .addColumnDefinition(new ColumnDefinition("DROP COLUMN player_name"))
-                .addColumnDefinition(new ColumnDefinition("DROP COLUMN player_uuid"))
-                .addColumnDefinition(new ColumnDefinition("uuid", ColumnType.VARCHAR).primaryKey());
+
     }
 }
