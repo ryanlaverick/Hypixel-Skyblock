@@ -1,7 +1,7 @@
 package com.github.ryanlaverick.framework.database;
 
 public class ColumnDefinition {
-    private final String column;
+    private String column = "";
     private ColumnType type = ColumnType.VARCHAR;
 
     private String raw = "";
@@ -12,8 +12,7 @@ public class ColumnDefinition {
 
     private boolean isPrimary = false;
 
-    public ColumnDefinition(String column, String raw) {
-        this.column = column;
+    public ColumnDefinition(String raw) {
         this.isUsingRaw = true;
         this.raw = raw;
     }
@@ -66,8 +65,7 @@ public class ColumnDefinition {
 
     public String asSql() {
         if (this.isUsingRaw()) {
-            return ":column :raw"
-                    .replace(":column", this.getColumn())
+            return ":raw"
                     .replace(":raw", this.getRaw());
         }
 

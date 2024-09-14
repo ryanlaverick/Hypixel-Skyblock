@@ -38,7 +38,7 @@ class ColumnDefinitionTest {
 
     @Test
     void rawDefinition() {
-        ColumnDefinition columnDefinition = new ColumnDefinition("column", "VARCHAR(255) DEFAULT 'Player'");
+        ColumnDefinition columnDefinition = new ColumnDefinition("column VARCHAR(255) DEFAULT 'Player'");
 
         assertEquals("column VARCHAR(255) DEFAULT 'Player'", columnDefinition.asSql());
     }

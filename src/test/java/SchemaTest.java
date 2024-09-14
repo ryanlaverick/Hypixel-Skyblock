@@ -1,22 +1,28 @@
+import com.github.ryanlaverick.framework.database.ColumnDefinition;
+import com.github.ryanlaverick.framework.database.ColumnType;
 import com.github.ryanlaverick.framework.database.Schema;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SchemaTest {
-    private final Schema schema = new Schema();
+    void createSchema() {
 
-    @Test
-    void setName() {
-        schema.table("players");
-
-        assertEquals("players", schema.getTable());
     }
 
     @Test
-    void setNameWithReassignment() {
-        Schema newSchema = schema.table("players");
+    void dropSchema() {
+        Schema schema = new Schema("players")
+                .drop();
 
-        assertEquals("players", newSchema.getTable());
+        assertEquals("DROP TABLE IF EXISTS players", schema.asSql());
+    }
+
+    void alterSchema() {
+        Schema schema = new Schema("players")
+                .alter()
+                .addColumnDefinition(new ColumnDefinition("DROP COLUMN player_name"))
+                .addColumnDefinition(new ColumnDefinition("DROP COLUMN player_uuid"))
+                .addColumnDefinition(new ColumnDefinition("uuid", ColumnType.VARCHAR).primaryKey());
     }
 }
