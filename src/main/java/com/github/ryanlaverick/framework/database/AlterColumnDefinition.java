@@ -10,6 +10,9 @@ public class AlterColumnDefinition implements ColumnDefinition {
     private boolean isPrimary = false;
     private boolean isNullable = false;
 
+    private boolean isAdding = true;
+    private boolean isAltering = false;
+
     public AlterColumnDefinition(String column, ColumnType type) {
         this.column = column;
         this.type = type;
@@ -30,6 +33,20 @@ public class AlterColumnDefinition implements ColumnDefinition {
 
     public AlterColumnDefinition nullable() {
         this.isNullable = true;
+
+        return this;
+    }
+
+    public AlterColumnDefinition add() {
+        this.isAdding = true;
+        this.isAltering = false;
+
+        return this;
+    }
+
+    public AlterColumnDefinition alter() {
+        this.isAdding = false;
+        this.isAltering = true;
 
         return this;
     }
@@ -58,8 +75,22 @@ public class AlterColumnDefinition implements ColumnDefinition {
         return isNullable;
     }
 
+    public boolean isAltering() {
+        return isAltering;
+    }
+
+    public boolean isAdding() {
+        return isAdding;
+    }
+
     public String asSql() {
-        String baseString = "ADD COLUMN :column :type";
+        String baseString = "";
+
+        if (this.isAltering()) {
+            baseString = "ALTER COLUMN :column :type";
+        } else {
+            baseString = "ADD COLUMN :column :type";
+        }
 
         if (this.hasSize()) {
             baseString = baseString.concat("(:size)");
