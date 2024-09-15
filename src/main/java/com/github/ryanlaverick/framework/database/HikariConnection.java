@@ -33,9 +33,11 @@ public final class HikariConnection implements Connection {
             throw new ConnectionAlreadyOpenException();
         }
 
-        try (HikariDataSource connection = new HikariDataSource()) {
+        try {
+            HikariDataSource connection = new HikariDataSource();
             connection.setMaximumPoolSize(this.maximumConnections);
-            connection.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+
+            connection.setDataSourceClassName("com.mysql.cj.jdbc.MysqlDataSource");
             connection.addDataSourceProperty("serverName", this.host);
             connection.addDataSourceProperty("port", this.port);
             connection.addDataSourceProperty("databaseName", this.database);
