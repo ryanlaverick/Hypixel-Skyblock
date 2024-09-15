@@ -21,6 +21,7 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>plugin.yml</include>
+                    <include>database.yml</include>
                 </includes>
             </resource>
         </resources>
