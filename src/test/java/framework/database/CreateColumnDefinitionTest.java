@@ -26,12 +26,12 @@ class CreateColumnDefinitionTest {
     }
 
     @Test
-    void sizeDefinition() {
+    void lengthDefinition() {
         CreateColumnDefinition columnDefinition = new CreateColumnDefinition("column", ColumnType.VARCHAR)
-                .size(10);
+                .length(10);
 
-        assertEquals(10, columnDefinition.getSize());
-        assertTrue(columnDefinition.hasSize());
+        assertEquals(10, columnDefinition.getLength());
+        assertTrue(columnDefinition.hasLength());
         assertEquals("`column` VARCHAR(10) NOT NULL", columnDefinition.asSql());
     }
 

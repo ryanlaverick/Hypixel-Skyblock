@@ -62,6 +62,65 @@ public final class Schema {
         return this;
     }
 
+    public Schema primaryUuid(String column) {
+        this.columnDefinitions.add(new CreateColumnDefinition(column, ColumnType.VARCHAR).length(36).primaryKey());
+
+        return this;
+    }
+
+    public Schema foreignUuid(String column, String referencesTable, String referencesColumn) {
+        this.columnDefinitions.add(new RawColumnDefinition(
+                "`:column` VARCHAR(36) NOT NULL, FOREIGN KEY (`:column`) REFERENCES `:referenceTable`(`:referenceColumn`)"
+                        .replace(":column", column)
+                        .replace(":referenceTable", referencesTable)
+                        .replace(":referenceColumn", referencesColumn)
+        ));
+
+        return this;
+    }
+
+    public Schema timestamp(String column) {
+        this.addColumnDefinition(new CreateColumnDefinition(column, ColumnType.BIGINT).length(20));
+
+        return this;
+    }
+
+    public Schema nullableTimestamp(String column) {
+        this.columnDefinitions.add(new CreateColumnDefinition(column, ColumnType.BIGINT).length(20).nullable());
+
+        return this;
+    }
+
+    public Schema string(String column) {
+        this.columnDefinitions.add(new CreateColumnDefinition(column, ColumnType.VARCHAR));
+
+        return this;
+    }
+
+    public Schema nullableString(String column) {
+        this.columnDefinitions.add(new CreateColumnDefinition(column, ColumnType.VARCHAR).nullable());
+
+        return this;
+    }
+
+    public Schema string(String column, int length) {
+        this.columnDefinitions.add(new CreateColumnDefinition(column, ColumnType.VARCHAR).length(length));
+
+        return this;
+    }
+
+    public Schema nullableString(String column, int length) {
+        this.columnDefinitions.add(new CreateColumnDefinition(column, ColumnType.VARCHAR).length(length).nullable());
+
+        return this;
+    }
+
+    public Schema raw(String raw) {
+        this.addColumnDefinition(new RawColumnDefinition(raw));
+
+        return this;
+    }
+
     public List<ColumnDefinition> getColumnDefinitions() {
         return columnDefinitions;
     }

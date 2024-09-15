@@ -4,8 +4,8 @@ public final class CreateColumnDefinition implements ColumnDefinition {
     private final String column;
     private final ColumnType type;
 
-    private boolean hasSize = false;
-    private int size = 0;
+    private boolean hasLength = false;
+    private int length = 0;
 
     private boolean isPrimary = false;
     private boolean isNullable = false;
@@ -15,9 +15,9 @@ public final class CreateColumnDefinition implements ColumnDefinition {
         this.type = type;
     }
 
-    public CreateColumnDefinition size(int size) {
-        this.hasSize = true;
-        this.size = size;
+    public CreateColumnDefinition length(int length) {
+        this.hasLength = true;
+        this.length = length;
 
         return this;
     }
@@ -42,12 +42,12 @@ public final class CreateColumnDefinition implements ColumnDefinition {
         return type;
     }
 
-    public boolean hasSize() {
-        return hasSize;
+    public boolean hasLength() {
+        return hasLength;
     }
 
-    public int getSize() {
-        return size;
+    public int getLength() {
+        return length;
     }
 
     public boolean isPrimary() {
@@ -61,8 +61,8 @@ public final class CreateColumnDefinition implements ColumnDefinition {
     public String asSql() {
         String baseString = "`:column` :type";
 
-        if (this.hasSize()) {
-            baseString = baseString.concat("(:size)");
+        if (this.hasLength()) {
+            baseString = baseString.concat("(:length)");
         } else {
             if (this.getType() == ColumnType.VARCHAR) {
                 baseString = baseString.concat("(255)");
@@ -80,7 +80,7 @@ public final class CreateColumnDefinition implements ColumnDefinition {
         baseString = baseString
                 .replace(":column", this.getColumn())
                 .replace(":type", this.getType().getSql())
-                .replace(":size", String.valueOf(this.getSize()));
+                .replace(":length", String.valueOf(this.getLength()));
 
         return baseString;
     }

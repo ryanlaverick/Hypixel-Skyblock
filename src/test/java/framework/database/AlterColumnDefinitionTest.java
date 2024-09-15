@@ -36,12 +36,12 @@ class AlterColumnDefinitionTest {
     }
 
     @Test
-    void sizeDefinition() {
+    void lengthDefinition() {
         AlterColumnDefinition columnDefinition = new AlterColumnDefinition("column", ColumnType.VARCHAR)
-                .size(10);
+                .length(10);
 
-        assertEquals(10, columnDefinition.getSize());
-        assertTrue(columnDefinition.hasSize());
+        assertEquals(10, columnDefinition.getLength());
+        assertTrue(columnDefinition.hasLength());
         assertEquals("ADD COLUMN `column` VARCHAR(10) NOT NULL", columnDefinition.asSql());
     }
 
