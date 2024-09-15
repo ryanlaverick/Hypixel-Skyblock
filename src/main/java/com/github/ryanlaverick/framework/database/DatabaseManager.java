@@ -3,10 +3,7 @@ package com.github.ryanlaverick.framework.database;
 import com.github.ryanlaverick.Skyblock;
 import com.github.ryanlaverick.framework.database.exceptions.ConnectionAlreadyOpenException;
 import com.github.ryanlaverick.framework.database.exceptions.InvalidConnectionCredentialsException;
-import com.github.ryanlaverick.framework.filesystem.CustomFile;
-import com.github.ryanlaverick.skyblock.modules.player.migrations.PlayerMigrationManager;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.sql.SQLException;
 
