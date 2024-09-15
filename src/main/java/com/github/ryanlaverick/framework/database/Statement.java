@@ -24,7 +24,7 @@ public class Statement {
                 e.printStackTrace();
             }
 
-            return null;
+            return false;
         });
 
         return result.get();
