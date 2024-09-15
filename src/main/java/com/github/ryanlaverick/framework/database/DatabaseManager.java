@@ -3,6 +3,7 @@ package com.github.ryanlaverick.framework.database;
 import com.github.ryanlaverick.Skyblock;
 import com.github.ryanlaverick.framework.database.exceptions.ConnectionAlreadyOpenException;
 import com.github.ryanlaverick.framework.database.exceptions.InvalidConnectionCredentialsException;
+import com.github.ryanlaverick.skyblock.modules.player.migrations.PlayerMigrationManager;
 
 import java.sql.SQLException;
 
@@ -18,6 +19,9 @@ public class DatabaseManager {
     public void establishConnection() {
         try {
             connection.openConnection();
+
+            PlayerMigrationManager playerMigrationManager = new PlayerMigrationManager(this.skyblock);
+            playerMigrationManager.migrate();
         } catch (ConnectionAlreadyOpenException e) {
             this.skyblock.getLogger().severe("[DATABASE] Unable to open a new connection to the Database, as one already exists.");
         } catch (InvalidConnectionCredentialsException e) {
