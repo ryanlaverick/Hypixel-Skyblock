@@ -29,9 +29,6 @@ public class DatabaseManager {
     public void establishConnection() {
         try {
             connection.openConnection();
-
-            PlayerMigrationManager playerMigrationManager = new PlayerMigrationManager(this.skyblock);
-            playerMigrationManager.migrate();
         } catch (ConnectionAlreadyOpenException e) {
             this.skyblock.getLogger().severe("[DATABASE] Unable to open a new connection to the Database, as one already exists.");
         } catch (InvalidConnectionCredentialsException e) {
