@@ -1,9 +1,6 @@
 package com.github.ryanlaverick.framework.event;
 
-import com.github.ryanlaverick.framework.event.exceptions.BrokerConnectionAlreadyOpenException;
-import com.github.ryanlaverick.framework.event.exceptions.BrokerConnectionNotOpenException;
-import com.github.ryanlaverick.framework.event.exceptions.BrokerConnectionTimeoutException;
-import com.github.ryanlaverick.framework.event.exceptions.BrokerInvalidCredentialsException;
+import com.github.ryanlaverick.framework.event.exceptions.*;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -62,9 +59,16 @@ public final class RabbitMqBroker implements Broker {
     }
 
     @Override
-    public void disconnect() {
+    public void disconnect() throws BrokerConnectionNotOpenException, BrokerConnectionCouldNotBeClosedException {
         if (this.connection == null) {
             throw new BrokerConnectionNotOpenException();
+        }
+
+        try {
+            this.channel.close();
+            this.connection.close();
+        } catch (Exception ignored) {
+            throw new BrokerConnectionCouldNotBeClosedException();
         }
     }
 

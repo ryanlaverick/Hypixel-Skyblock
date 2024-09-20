@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Skyblock extends JavaPlugin {
     private FileSystemManager fileSystemManager;
+    private BrokerManager brokerManager;
 
     @Override
     public void onEnable() {
@@ -17,8 +18,13 @@ public class Skyblock extends JavaPlugin {
         DatabaseManager databaseManager = new DatabaseManager(this);
         databaseManager.establishConnection();
 
-        BrokerManager brokerManager = new BrokerManager(this);
-        brokerManager.establishConnection();
+        this.brokerManager = new BrokerManager(this);
+        this.brokerManager.establishConnection();
+    }
+
+    @Override
+    public void onDisable() {
+        this.brokerManager.closeConnection();
     }
 
     public FileSystemManager getFileSystemManager() {
