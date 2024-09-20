@@ -28,7 +28,9 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build Maven packages
-        run: mvn clean package -DskipTests
+        run: |
+          mvn clean package -DskipTests
+          ls -al target
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
