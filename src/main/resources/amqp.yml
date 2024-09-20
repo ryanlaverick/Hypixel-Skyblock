@@ -1,0 +1,6 @@
+AMQP_HOST: "localhost"
+AMQP_USERNAME: "guest"
+AMQP_PASSWORD: "guest"
+AMQP_VIRTUAL_HOST: "/"
+AMQP_PORT: 5672
+AMQP_EXCHANGE_NAME: "skyblock"
