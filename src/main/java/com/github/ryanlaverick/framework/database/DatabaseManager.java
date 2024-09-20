@@ -3,7 +3,6 @@ package com.github.ryanlaverick.framework.database;
 import com.github.ryanlaverick.Skyblock;
 import com.github.ryanlaverick.framework.database.exceptions.ConnectionAlreadyOpenException;
 import com.github.ryanlaverick.framework.database.exceptions.InvalidConnectionCredentialsException;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.sql.SQLException;
 
@@ -13,16 +12,14 @@ public class DatabaseManager {
 
     public DatabaseManager(Skyblock skyblock) {
         this.skyblock = skyblock;
-
-        FileConfiguration databaseFile = this.skyblock.getFileSystemManager().getDatabaseFile().getFileConfiguration();
         
         connection = new HikariConnection(
-                databaseFile.getString("DATABASE_HOST"),
-                databaseFile.getString("DATABASE_PORT"),
-                databaseFile.getString("DATABASE_NAME"),
-                databaseFile.getString("DATABASE_USER"),
-                databaseFile.getString("DATABASE_PASSWORD"),
-                databaseFile.getInt("DATABASE_MAX_POOL_SIZE")
+                this.skyblock.getCache().getString("DATABASE_HOST"),
+                this.skyblock.getCache().getString("DATABASE_PORT"),
+                this.skyblock.getCache().getString("DATABASE_NAME"),
+                this.skyblock.getCache().getString("DATABASE_USER"),
+                this.skyblock.getCache().getString("DATABASE_PASSWORD"),
+                this.skyblock.getCache().getInt("DATABASE_MAX_POOL_SIZE")
         );
     }
 
