@@ -22,6 +22,7 @@
                 <includes>
                     <include>plugin.yml</include>
                     <include>database.yml</include>
+                    <include>amqp.yml</include>
                 </includes>
             </resource>
         </resources>

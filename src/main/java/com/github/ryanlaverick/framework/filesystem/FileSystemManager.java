@@ -13,12 +13,14 @@ public class FileSystemManager {
     private final List<CustomFile> files;
 
     private static final String DATABASE_FILE = "database.yml";
+    private static final String AMQP_FILE = "amqp.yml";
 
     public FileSystemManager(Skyblock skyblock) {
         this.skyblock = skyblock;
 
         this.files = Arrays.asList(
-                new CustomFile(DATABASE_FILE, this.skyblock.getDataFolder())
+                new CustomFile(DATABASE_FILE, this.skyblock.getDataFolder()),
+                new CustomFile(AMQP_FILE, this.skyblock.getDataFolder())
         );
     }
 
@@ -40,12 +42,20 @@ public class FileSystemManager {
     }
 
     public CustomFile getDatabaseFile() {
+        return this.getFile(DATABASE_FILE);
+    }
+
+    public CustomFile getAMQPFile() {
+        return this.getFile(AMQP_FILE);
+    }
+
+    private CustomFile getFile(String file) {
         for (CustomFile customFile : this.getFiles()) {
-            if (customFile.getName().equals(DATABASE_FILE)) {
+            if (customFile.getName().equals(file)) {
                 return customFile;
             }
         }
 
-        throw new FileNotFoundException(DATABASE_FILE);
+        throw new FileNotFoundException(file);
     }
 }

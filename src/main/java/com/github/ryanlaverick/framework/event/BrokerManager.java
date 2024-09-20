@@ -1,18 +1,28 @@
 package com.github.ryanlaverick.framework.event;
 
 import com.github.ryanlaverick.Skyblock;
-import com.github.ryanlaverick.framework.event.exceptions.BrokerConnectionAlreadyOpenException;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public final class BrokerManager {
     private Skyblock skyblock;
-    private Broker broker;
 
     public BrokerManager(Skyblock skyblock) {
         this.skyblock = skyblock;
     }
 
     public void establishConnection() {
-        this.broker = new RabbitMqBroker(this.skyblock);
-        this.broker.connect();
+        FileConfiguration amqpFile = this.skyblock.getFileSystemManager().getAMQPFile().getFileConfiguration();
+
+        RabbitMqBroker broker = new RabbitMqBroker(
+                amqpFile.getString("AMQP_HOST"),
+                amqpFile.getString("AMQP_USERNAME"),
+                amqpFile.getString("AMQP_PASSWORD"),
+                amqpFile.getString("AMQP_VIRTUAL_HOST"),
+                amqpFile.getInt("AMQP_PORT"),
+                amqpFile.getString("AMQP_EXCHANGE_NAME")
+        );
+        broker.connect();
+
+        this.skyblock.getLogger().info("Connection to RabbitMQ established successfully on queue: " + broker.getQueue());
     }
 }
