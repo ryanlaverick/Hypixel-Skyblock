@@ -12,15 +12,13 @@ public final class BrokerManager {
     }
 
     public void establishConnection() {
-        FileConfiguration amqpFile = this.skyblock.getFileSystemManager().getAMQPFile().getFileConfiguration();
-
         this.broker = new RabbitMqBroker(
-                amqpFile.getString("AMQP_HOST"),
-                amqpFile.getString("AMQP_USERNAME"),
-                amqpFile.getString("AMQP_PASSWORD"),
-                amqpFile.getString("AMQP_VIRTUAL_HOST"),
-                amqpFile.getInt("AMQP_PORT"),
-                amqpFile.getString("AMQP_EXCHANGE_NAME")
+                this.skyblock.getCache().getString("AMQP_HOST"),
+                this.skyblock.getCache().getString("AMQP_USERNAME"),
+                this.skyblock.getCache().getString("AMQP_PASSWORD"),
+                this.skyblock.getCache().getString("AMQP_VIRTUAL_HOST"),
+                this.skyblock.getCache().getInt("AMQP_PORT"),
+                this.skyblock.getCache().getString("AMQP_EXCHANGE_NAME")
         );
         this.broker.connect();
 
