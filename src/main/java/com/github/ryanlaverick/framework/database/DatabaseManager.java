@@ -1,6 +1,8 @@
 package com.github.ryanlaverick.framework.database;
 
 import com.github.ryanlaverick.Skyblock;
+import com.github.ryanlaverick.framework.cache.Cache;
+import com.github.ryanlaverick.framework.cache.CacheIdentifier;
 import com.github.ryanlaverick.framework.database.exceptions.ConnectionAlreadyOpenException;
 import com.github.ryanlaverick.framework.database.exceptions.InvalidConnectionCredentialsException;
 
@@ -12,14 +14,16 @@ public class DatabaseManager {
 
     public DatabaseManager(Skyblock skyblock) {
         this.skyblock = skyblock;
+
+        Cache config = this.skyblock.getCacheManager().getCache(CacheIdentifier.CONFIG);
         
         connection = new HikariConnection(
-                this.skyblock.getCache().getString("DATABASE_HOST"),
-                this.skyblock.getCache().getString("DATABASE_PORT"),
-                this.skyblock.getCache().getString("DATABASE_NAME"),
-                this.skyblock.getCache().getString("DATABASE_USER"),
-                this.skyblock.getCache().getString("DATABASE_PASSWORD"),
-                this.skyblock.getCache().getInt("DATABASE_MAX_POOL_SIZE")
+                config.getString("DATABASE_HOST"),
+                config.getString("DATABASE_PORT"),
+                config.getString("DATABASE_NAME"),
+                config.getString("DATABASE_USER"),
+                config.getString("DATABASE_PASSWORD"),
+                config.getInt("DATABASE_MAX_POOL_SIZE")
         );
     }
 
@@ -32,6 +36,8 @@ public class DatabaseManager {
             this.skyblock.getLogger().severe("[DATABASE] Unable to establish a connection to the Database using the provided credentials. Are they correct?");
         } catch (SQLException e) {
             this.skyblock.getLogger().severe("[DATABASE] Unable to establish a connection to the Database.");
+        } finally {
+            this.skyblock.getLogger().info("[DATABASE] Connection established successfully!");
         }
     }
 

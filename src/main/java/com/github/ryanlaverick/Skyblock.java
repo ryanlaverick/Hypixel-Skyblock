@@ -1,38 +1,30 @@
 package com.github.ryanlaverick;
 
 import com.github.ryanlaverick.framework.cache.Cache;
+import com.github.ryanlaverick.framework.cache.CacheManager;
+import com.github.ryanlaverick.framework.cache.exceptions.CacheNotInitializedException;
 import com.github.ryanlaverick.framework.database.DatabaseManager;
 import com.github.ryanlaverick.framework.event.BrokerManager;
 import com.github.ryanlaverick.framework.event.exceptions.BrokerNotInitializedException;
-import com.github.ryanlaverick.framework.filesystem.CustomFile;
 import com.github.ryanlaverick.framework.filesystem.FileSystemManager;
 import com.github.ryanlaverick.framework.filesystem.exceptions.FileSystemNotInitializedException;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Set;
+import java.util.Map;
 
 public class Skyblock extends JavaPlugin {
-    private Cache cache;
-
+    private CacheManager cacheManager;
     private FileSystemManager fileSystemManager;
     private BrokerManager brokerManager;
 
     @Override
     public void onEnable() {
-        this.cache = new Cache();
-
         this.fileSystemManager = new FileSystemManager(this);
         this.fileSystemManager.initFiles();
 
-        for (CustomFile file : this.getFileSystemManager().getFiles()) {
-            FileConfiguration fileConfiguration = file.getFileConfiguration();
-            Set<String> keys = fileConfiguration.getKeys(false);
-
-            for (String key : keys) {
-                this.cache.add(key, fileConfiguration.get(key));
-            }
-        }
+        // Ensure Config cache is set up before Database and Broker managers as they utilise cached values
+        this.cacheManager = new CacheManager(this);
+        this.cacheManager.setupConfigCache();
 
         DatabaseManager databaseManager = new DatabaseManager(this);
         databaseManager.establishConnection();
@@ -44,11 +36,12 @@ public class Skyblock extends JavaPlugin {
     @Override
     public void onDisable() {
         this.brokerManager.closeConnection();
-        this.cache.clear();
-    }
 
-    public Cache getCache() {
-        return cache;
+        for (Map.Entry<String, Cache> entrySet : this.getCacheManager().getCaches().entrySet()) {
+            Cache cache = entrySet.getValue();
+
+            cache.clear();
+        }
     }
 
     public FileSystemManager getFileSystemManager() {
@@ -65,5 +58,13 @@ public class Skyblock extends JavaPlugin {
         }
 
         return brokerManager;
+    }
+
+    public CacheManager getCacheManager() {
+        if (this.cacheManager == null) {
+            throw new CacheNotInitializedException();
+        }
+
+        return cacheManager;
     }
 }

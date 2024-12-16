@@ -6,23 +6,21 @@ import com.github.ryanlaverick.framework.cache.exceptions.CacheKeyNotFoundExcept
 import java.util.HashMap;
 import java.util.Map;
 
-public final class Cache {
-    private final Map<String, Object> cache;
+public abstract class Cache {
+    protected final Map<String, Object> cacheEntries;
 
-    public Cache() {
-        this.cache = new HashMap<>();
+    protected Cache() {
+        this.cacheEntries = new HashMap<>();
     }
 
-    public Map<String, Object> getCache() {
-        return cache;
-    }
+    public abstract String getIdentifier();
 
     public void add(String key, Object value) throws CacheKeyAlreadyUsedException {
         if (this.has(key)) {
             throw new CacheKeyAlreadyUsedException(key);
         }
 
-        this.cache.put(key, value);
+        this.cacheEntries.put(key, value);
     }
 
     public void remove(String key) throws CacheKeyNotFoundException {
@@ -30,15 +28,19 @@ public final class Cache {
             throw new CacheKeyNotFoundException(key);
         }
 
-        this.cache.remove(key);
+        this.cacheEntries.remove(key);
+    }
+
+    public void clear() {
+        this.cacheEntries.clear();
     }
 
     public boolean has(String key) {
-        return this.cache.containsKey(key);
+        return this.cacheEntries.containsKey(key);
     }
 
     public Object get(String key) throws CacheKeyNotFoundException {
-        return this.cache.get(key);
+        return this.cacheEntries.get(key);
     }
 
     public String getString(String key) throws CacheKeyNotFoundException {
@@ -49,7 +51,7 @@ public final class Cache {
         return (int) this.get(key);
     }
 
-    public void clear() {
-        this.cache.clear();
+    public int size() {
+        return this.cacheEntries.size();
     }
 }
