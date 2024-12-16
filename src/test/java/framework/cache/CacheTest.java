@@ -1,6 +1,6 @@
 package framework.cache;
 
-import com.github.ryanlaverick.framework.cache.Cache;
+import com.github.ryanlaverick.framework.cache.ConfigCache;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CacheTest {
-    private final Cache cache = new Cache();
+    private final ConfigCache cache = new ConfigCache();
 
     @ParameterizedTest
     @MethodSource("provideValues")
@@ -45,10 +45,10 @@ class CacheTest {
     @Test
     void removeItem() {
         this.cache.add("FOO", "BAR");
-        assertEquals(1, this.cache.getCache().size());
+        assertEquals(1, this.cache.size());
 
         this.cache.remove("FOO");
-        assertEquals(0, this.cache.getCache().size());
+        assertEquals(0, this.cache.size());
     }
 
     @Test
